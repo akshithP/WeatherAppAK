@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./main-page.css";
 
 const MainPage = () => {
   const [query, setQuery] = useState("");
@@ -7,8 +8,10 @@ const MainPage = () => {
   const search = (evt) => {
     if (evt.key === "Enter") {
       //Sends the get request to this api URL, get JSON response
-      console.log(process.env)
-      fetch(`${process.env.REACT_APP_API_BASE}weather?q=${query}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
+      console.log(process.env);
+      fetch(
+        `${process.env.REACT_APP_API_BASE}weather?q=${query}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+      )
         .then((res) => res.json())
         .then((result) => {
           setWeather(result);
@@ -16,6 +19,20 @@ const MainPage = () => {
           console.log(result);
         });
     }
+  };
+
+  const clickSearch = () => {
+      //Sends the get request to this api URL, get JSON response
+      console.log(process.env);
+      fetch(
+        `${process.env.REACT_APP_API_BASE}weather?q=${query}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          setWeather(result);
+          setQuery("");
+          console.log(result);
+        });
   };
 
   const buildDate = (d) => {
@@ -54,7 +71,11 @@ const MainPage = () => {
   return (
     <div className="main-page">
       <main>
-        <div>
+        <div className="intro">
+          <h2>weather.ak</h2>
+          <p>Get current weather data of any city!</p>
+        </div>
+        <div className="search-div">
           <input
             type="text"
             className="search-bar"
@@ -63,6 +84,9 @@ const MainPage = () => {
             value={query}
             onKeyPress={search}
           />
+          <button className="search-btn" onClick={clickSearch}>
+            Search
+          </button>
         </div>
         {typeof weather.main != "undefined" && (
           <div>
@@ -74,7 +98,7 @@ const MainPage = () => {
             </div>
             <div className="weather-box">
               <div className="temp">{Math.round(weather.main.temp)}°C</div>
-              <div className="weather">{weather.weather[0].main}</div>
+              <div className="weather">{weather.weather[0].description}</div>
             </div>
           </div>
         )}
