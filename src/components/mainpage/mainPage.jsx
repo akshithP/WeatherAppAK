@@ -69,7 +69,7 @@ const MainPage = () => {
     return `${day} ${date} ${month} ${year}`;
   };
   return (
-    <div className="main-page">
+    <div className={(typeof weather.main != "undefined") ? ((weather.weather[0].main === "Clear") ? 'sunny' : 'normal') : 'normal'}>
       <main>
         <div className="intro">
           <h2>weather.ak</h2>
